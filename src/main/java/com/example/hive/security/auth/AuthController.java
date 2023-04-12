@@ -39,6 +39,7 @@ import static com.example.hive.utils.StringUtil.doesBothStringMatch;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;

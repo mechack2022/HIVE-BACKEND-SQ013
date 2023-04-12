@@ -42,7 +42,7 @@ public class Task extends AuditEntity {
     private User tasker;
     @ManyToOne(cascade = CascadeType.MERGE)
     private User doer;
-    private Boolean isEscrowTransferComplete = false;
+    private Boolean isEscrowTransferComplete = true;
     @OneToOne
     private TransactionLog transactionLog;
     @OneToOne

@@ -1,6 +1,5 @@
 package com.example.hive.dto.response;
 
-import com.example.hive.entity.Address;
 import com.example.hive.enums.Role;
 import lombok.*;
 
@@ -17,7 +16,7 @@ public class UserRegistrationResponseDto {
 
     private String phoneNumber;
 
-    private Address address;
+    private String address;
 
     private Boolean isVerified;
 
