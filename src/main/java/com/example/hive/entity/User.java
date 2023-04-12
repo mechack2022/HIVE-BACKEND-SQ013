@@ -23,12 +23,12 @@ public class User extends AuditEntity {
     private String email;
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Column(name = "valid_id")
-    private String validId;
-    @OneToOne
-    private Address address;
+//    @Column(name = "valid_id")
+//    private String validId;
+
+    private String address;
     private String password;
-    private Boolean isVerified = false;
+    private Boolean isVerified;
 
     @Enumerated(EnumType.STRING)
     private Role role;

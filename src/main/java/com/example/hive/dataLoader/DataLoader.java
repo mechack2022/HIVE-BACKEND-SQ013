@@ -1,11 +1,11 @@
 package com.example.hive.dataLoader;
 
-import com.example.hive.entity.Address;
+//import com.example.hive.entity.Address;
 import com.example.hive.entity.Task;
 import com.example.hive.entity.User;
 import com.example.hive.enums.Role;
 import com.example.hive.enums.Status;
-import com.example.hive.repository.AddressRepository;
+//import com.example.hive.repository.AddressRepository;
 import com.example.hive.repository.TaskRepository;
 import com.example.hive.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
@@ -21,77 +21,76 @@ import java.util.UUID;
 @Component
 public class DataLoader {
     private UserRepository userRepository;
-    private AddressRepository addressRepository;
+//    private AddressRepository addressRepository;
     private TaskRepository taskRepository;
 
-    public DataLoader(UserRepository userRepository, AddressRepository addressRepository, TaskRepository taskRepository) {
+    public DataLoader(UserRepository userRepository,  TaskRepository taskRepository) {
         this.userRepository = userRepository;
-        this.addressRepository = addressRepository;
         this.taskRepository = taskRepository;
     }
     @PostConstruct
 
     public void loadUserData() {
         // Create an address for the user and task
-        Address address1 = new Address();
-        address1.setNumber(1);
-        address1.setStreet("Lagos Street");
-        address1.setCity("Lagos");
-        address1.setState("Lagos");
-        address1.setCountry("Nigeria");
+//        Address address1 = new Address();
+//        address1.setNumber(1);
+//        address1.setStreet("Lagos Street");
+//        address1.setCity("Lagos");
+//        address1.setState("Lagos");
+//        address1.setCountry("Nigeria");
 
-        // second address
-        Address address2 = new Address();
-        address2.setNumber(2);
-        address2.setStreet("4 Lagos Street");
-        address2.setCity("Calabar");
-        address2.setState("Cross River");
-        address2.setCountry("Nigeria");
+//        // second address
+//        Address address2 = new Address();
+//        address2.setNumber(2);
+//        address2.setStreet("4 Lagos Street");
+//        address2.setCity("Calabar");
+//        address2.setState("Cross River");
+//        address2.setCountry("Nigeria");
+//
+//        // third address
+//        Address address3 = new Address();
+//        address3.setNumber(3);
+//        address3.setStreet("Maitama Street");
+//        address3.setCity("Abuja");
+//        address3.setState("Abuja");
+//        address3.setCountry("Nigeria");
+//
+//        Address address4 = new Address();
+//        address4.setNumber(4);
+//        address4.setStreet("Paolo Street");
+//        address4.setCity("Port-Harcourt");
+//        address4.setState("Rivers");
+//        address4.setCountry("Nigeria");
+//
+//        Address address5 = new Address();
+//        address5.setNumber(5);
+//        address5.setStreet("Citadel Road");
+//        address5.setCity("Lagos");
+//        address5.setState("Lagos");
+//        address5.setCountry("Nigeria");
+//
+//        Address address6 = new Address();
+//        address6.setNumber(6);
+//        address6.setStreet("United Estate");
+//        address6.setCity("Lagos");
+//        address6.setState("Lagos");
+//        address6.setCountry("Nigeria");
 
-        // third address
-        Address address3 = new Address();
-        address3.setNumber(3);
-        address3.setStreet("Maitama Street");
-        address3.setCity("Abuja");
-        address3.setState("Abuja");
-        address3.setCountry("Nigeria");
 
-        Address address4 = new Address();
-        address4.setNumber(4);
-        address4.setStreet("Paolo Street");
-        address4.setCity("Port-Harcourt");
-        address4.setState("Rivers");
-        address4.setCountry("Nigeria");
+//        List<Address> addresses = List.of(address1, address2, address3, address4, address5, address6);
 
-        Address address5 = new Address();
-        address5.setNumber(5);
-        address5.setStreet("Citadel Road");
-        address5.setCity("Lagos");
-        address5.setState("Lagos");
-        address5.setCountry("Nigeria");
-
-        Address address6 = new Address();
-        address6.setNumber(6);
-        address6.setStreet("United Estate");
-        address6.setCity("Lagos");
-        address6.setState("Lagos");
-        address6.setCountry("Nigeria");
-
-
-        List<Address> addresses = List.of(address1, address2, address3, address4, address5, address6);
-
-        for (Address address : addresses) {
-            Optional<Address> existingAddress = addressRepository.findByNumberAndStreetAndCityAndStateAndCountry(
-                    address.getNumber(),
-                    address.getStreet(),
-                    address.getCity(),
-                    address.getState(),
-                    address.getCountry()
-            );
-            if (!existingAddress.isPresent()) {
-                addressRepository.save(address);
-            }
-        }
+//        for (Address address : addresses) {
+//            Optional<Address> existingAddress = addressRepository.findByNumberAndStreetAndCityAndStateAndCountry(
+//                    address.getNumber(),
+//                    address.getStreet(),
+//                    address.getCity(),
+//                    address.getState(),
+//                    address.getCountry()
+//            );
+//            if (!existingAddress.isPresent()) {
+//                addressRepository.save(address);
+//            }
+//        }
 
 
         // Create a user
@@ -100,11 +99,11 @@ public class DataLoader {
         user.setFullName("Daniel Ijedibia");
         user.setEmail("daniel@gmail.com");
         user.setPhoneNumber("00000000000");
-        user.setValidId(String.valueOf(1));
+//        user.setValidId(String.valueOf(1));
         user.setPassword("hashedPassword");
         user.setIsVerified(true);
         user.setRole(Role.TASKER);
-        user.setAddress(address1);
+//        user.setAddress(address1);
 
         // second user
         User user2 = new User();
@@ -112,11 +111,11 @@ public class DataLoader {
         user2.setFullName("Daniel");
         user2.setEmail("dan@gmail.com");
         user2.setPhoneNumber("000000000");
-        user2.setValidId(String.valueOf(2));
+//        user2.setValidId(String.valueOf(2));
         user2.setPassword("hashedPassword");
         user2.setIsVerified(true);
         user2.setRole(Role.TASKER);
-        user2.setAddress(address2);
+//        user2.setAddress(address2);
 
 
         // third user
@@ -125,11 +124,11 @@ public class DataLoader {
         user3.setFullName("Don Pablo");
         user3.setEmail("dp@indian.com");
         user3.setPhoneNumber("000000");
-        user3.setValidId(String.valueOf(3));
+//        user3.setValidId(String.valueOf(3));
         user3.setPassword("hashedPassword");
         user3.setIsVerified(true);
         user3.setRole(Role.TASKER);
-        user3.setAddress(address3);
+//        user3.setAddress(address3);
 
 
         User user4 = new User();
@@ -137,22 +136,22 @@ public class DataLoader {
         user4.setFullName("Christian Fo0bah");
         user4.setEmail("foobar@gmail.com");
         user4.setPhoneNumber("7382834");
-        user4.setValidId(String.valueOf(4));
+//        user4.setValidId(String.valueOf(4));
         user4.setPassword("0000");
         user4.setIsVerified(true);
         user4.setRole(Role.DOER);
-        user4.setAddress(address4);
+//        user4.setAddress(address4);
 
         User user5 = new User();
         user5.setUser_id(UUID.randomUUID());
         user5.setFullName("Peter Desmond");
         user5.setEmail("peter@gmail.com");
         user5.setPhoneNumber("00002340000");
-        user5.setValidId(String.valueOf(5));
+//        user5.setValidId(String.valueOf(5));
         user5.setPassword("hashedPassword");
         user5.setIsVerified(true);
         user5.setRole(Role.DOER);
-        user5.setAddress(address5);
+//        user5.setAddress(address5);
 
 
         User user6 = new User();
@@ -160,22 +159,22 @@ public class DataLoader {
         user6.setFullName("Desmond");
         user6.setEmail("desd@gmail.com");
         user6.setPhoneNumber("4502340000");
-        user6.setValidId(String.valueOf(6));
+//        user6.setValidId(String.valueOf(6));
         user6.setPassword("hashedDesd");
         user6.setIsVerified(true);
         user6.setRole(Role.DOER);
-        user6.setAddress(address6);
+//        user6.setAddress(address6);
 
         User user7 = new User();
         user6.setUser_id(UUID.randomUUID());
         user6.setFullName("Stephen");
         user6.setEmail("stevol2015@gmail.com");
         user6.setPhoneNumber("07025090220");
-        user6.setValidId(String.valueOf(6));
+//        user6.setValidId(String.valueOf(6));
         user6.setPassword("Thastr@123");
         user6.setIsVerified(true);
         user6.setRole(Role.TASKER);
-        user6.setAddress(address6);
+//        user6.setAddress(address6);
 
 
         List<User> users = List.of(user,user2,user3,user4,user5,user6,user7);

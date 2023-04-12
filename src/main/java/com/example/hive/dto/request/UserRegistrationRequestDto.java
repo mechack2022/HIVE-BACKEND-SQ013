@@ -1,6 +1,6 @@
 package com.example.hive.dto.request;
 
-import com.example.hive.entity.Address;
+//import com.example.hive.entity.Address;
 import com.example.hive.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -43,10 +43,10 @@ public class UserRegistrationRequestDto {
     //    @NotBlank(message = "role field cannot be empty")
     private Role role;
 
-    @NotBlank(message = "validId field cannot be empty")
-    private String validId;
+//    @NotBlank(message = "validId field cannot be empty")
+//    private String validId;
 
     //    @NotBlank(message = "address field cannot be null")
-    private Address address;
+    private String address;
 
 }

@@ -73,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
                 .budgetRate(taskDto.getBudgetRate())
                 .estimatedTime(taskDto.getEstimatedTime())
                 .tasker(user)
-                .isEscrowTransferComplete(false)
+                .isEscrowTransferComplete(true)
                 .escrowWallet(escrowWallet)
                 .status(Status.NEW)
                 .build();

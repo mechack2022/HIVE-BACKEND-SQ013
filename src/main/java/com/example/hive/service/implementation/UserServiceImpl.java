@@ -36,8 +36,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final AddressRepository addressRepository;
-
+//    private final AddressRepository addressRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final PasswordEncoder passwordEncoder;
 
@@ -152,8 +151,8 @@ public class UserServiceImpl implements UserService {
     private User saveNewUser(UserRegistrationRequestDto registrationRequestDto) {
         User newUser = new User();
         Role role = registrationRequestDto.getRole();
-        Address address = registrationRequestDto.getAddress();
-        addressRepository.save(address);
+//        Address address = registrationRequestDto.getAddress();
+//        addressRepository.save(address);
 
         BeanUtils.copyProperties(registrationRequestDto, newUser);
         log.info("user has a role of {}",registrationRequestDto.getRole().toString());
