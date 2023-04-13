@@ -25,6 +25,7 @@ import java.security.Principal;
 @RequestMapping("/transaction")
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin(origins = ("*"))
 public class TransactionController {
     private final PaymentService paymentService;
     private final WalletService walletService;

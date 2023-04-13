@@ -3,6 +3,7 @@ package com.example.hive.controller;
 import com.example.hive.dto.request.ForgetPasswordDto;
 import com.example.hive.dto.request.ResetPasswordDto;
 import com.example.hive.dto.response.AppResponse;
+import com.example.hive.dto.response.UserResponseDto;
 import com.example.hive.entity.User;
 import com.example.hive.exceptions.CustomException;
 import com.example.hive.service.implementation.PasswordServiceImpl;
@@ -17,11 +18,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.PrincipalMethodArgumentResolver;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.security.Principal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -83,4 +87,11 @@ public class UserController {
             return ResponseEntity.created(uri).body(AppResponse.buildSuccess("Invalid Token"));
         }
     }
+
+//    @GetMapping
+//    public ResponseEntity<AppResponse<UserResponseDto>> getSingleUserAndTasks(Principal principal){
+//        String user = principal.getName();
+//        User foundUser = userService.findUserByEmail(user).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//
+//    }
 }
