@@ -36,8 +36,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final AddressRepository addressRepository;
-
+//    private final AddressRepository addressRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final PasswordEncoder passwordEncoder;
 
@@ -69,9 +68,9 @@ public class UserServiceImpl implements UserService {
             throw new CustomException("User already exist", HttpStatus.FORBIDDEN);
         }
         User newUser = saveNewUser(registrationRequestDto);
-        //reate a wallet account for both doer and tasker
+        //if user is a doer , create a wallet account
 
-        createWalletAccount(newUser);
+        if (newUser.getRole().equals(Role.DOER)){ createWalletAccount(newUser);}
 
         // generateToken and Save to token repo, send email also
         eventPublisher.publishEvent(new RegistrationCompleteEvent(
@@ -112,8 +111,8 @@ public class UserServiceImpl implements UserService {
         if (verificationToken.getExpirationTime().getTime() - cal.getTime().getTime() > 0 ) {
             user.setIsVerified(true);
             userRepository.save(user);
-            // activate the wallet
-            activateWallet(user);
+            // activate the wallet of doer account
+           if(user.getRole().equals(Role.DOER)){activateWallet(user);}
             verificationTokenRepository.delete(verificationToken);
             status = true;
         }
@@ -152,6 +151,9 @@ public class UserServiceImpl implements UserService {
     private User saveNewUser(UserRegistrationRequestDto registrationRequestDto) {
         User newUser = new User();
         Role role = registrationRequestDto.getRole();
+//        Address address = registrationRequestDto.getAddress();
+//        addressRepository.save(address);
+
         BeanUtils.copyProperties(registrationRequestDto, newUser);
         log.info("user has a role of {}",registrationRequestDto.getRole().toString());
         newUser.addRole(role);

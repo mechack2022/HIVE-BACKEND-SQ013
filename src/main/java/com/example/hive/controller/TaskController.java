@@ -11,7 +11,6 @@ import com.example.hive.repository.UserRepository;
 import com.example.hive.service.TaskService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import jdk.jfr.Frequency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("api/tasks")
 public class TaskController {
 
     private TaskService taskService;
@@ -34,7 +33,8 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/")
+    @PostMapping
+//    @PreAuthorize("hasRole('TASKER')")
     public ResponseEntity<AppResponse<TaskResponseDto>> createTask(@Valid @RequestBody TaskDto taskDto, Principal principal,HttpServletRequest request) {
         String email = principal.getName();
         User currentUser = userRepository.findByEmail(email)
@@ -52,7 +52,7 @@ public class TaskController {
 
     }
 
-    @GetMapping(path = "task/details/{taskId}")
+    @GetMapping(path = "/{taskId}")
     public ResponseEntity<AppResponse<TaskResponseDto>> findTaskById(@PathVariable UUID taskId) {
         TaskResponseDto taskFound = taskService.findTaskById(taskId);
 
@@ -66,7 +66,7 @@ public class TaskController {
         return ResponseEntity.ok().body(apiResponse);
     }
 
-    @GetMapping("task/list")
+    @GetMapping
     public ResponseEntity<AppResponse<Object>> findAllTasks(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
