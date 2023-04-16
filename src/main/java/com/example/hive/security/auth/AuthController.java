@@ -54,7 +54,9 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         if (authentication.isAuthenticated()) {
-            TokenResponse tokenResponse = JwtService.generateToken(authentication);
+           User currentUser = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new ResourceNotFoundException("user does not exist"));
+
+            TokenResponse tokenResponse = JwtService.generateToken(authentication, currentUser);
             return ResponseEntity.status(200).body(AppResponse.builder().statusCode("00").isSuccessful(true).result(tokenResponse).message("Authenticated").build());
         } else {
             throw new UsernameNotFoundException("invalid user request !");

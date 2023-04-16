@@ -12,26 +12,31 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 
 public class JwtService {
 
-    public static TokenResponse generateToken(Authentication authentication) {
+    public static TokenResponse generateToken(Authentication authentication, com.example.hive.entity.User currentUser) {
         User user = (User) authentication.getPrincipal();
 
         String userName = user.getUsername();
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("address", currentUser.getAddress());
+        payload.put("fullName", currentUser.getFullName());
+        payload.put("email", currentUser.getEmail());
+        payload.put("verifiedStatus", currentUser.getIsVerified());
+
 
         Algorithm algorithm = Algorithm.HMAC256(SecurityConstants.SECRET.getBytes());
         String access_token = JWT.create()
                 .withSubject(userName)
                 .withExpiresAt(new Date(System.currentTimeMillis()+ SecurityConstants.EXPIRATION_TIME))
                 .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withPayload( payload)
                 .withClaim("roles", authentication.getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority)

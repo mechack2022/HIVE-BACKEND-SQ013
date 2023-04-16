@@ -241,6 +241,13 @@ public class TaskServiceImpl implements TaskService {
         throw new BadRequestException("Something Went wrong");
     }
 
+    @Override
+    public List<TaskResponseDto> getTasksByTaskerAndStatus(User currentUser, String status) {
+     List<Task>  tasks = taskRepository.findAllByTaskerAndStatus(currentUser,Status.valueOf(status.toUpperCase()));
+
+        return tasks.stream().map(task -> modelMapper.map(task, TaskResponseDto.class)).collect(Collectors.toList());
+    }
+
     private void creditTheDoerWalletFromEscrowWallet(EscrowWallet escrowWallet, User doer, Task task) {
 
         //check if the task has been paid for
