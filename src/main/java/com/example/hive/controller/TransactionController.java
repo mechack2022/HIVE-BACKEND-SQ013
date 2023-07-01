@@ -2,11 +2,12 @@ package com.example.hive.controller;
 
 
 import com.example.hive.dto.request.FundWalletRequest;
-import com.example.hive.dto.response.AppResponse;
-import com.example.hive.dto.response.PayStackResponse;
-import com.example.hive.dto.response.VerifyTransactionResponse;
+import com.example.hive.dto.response.*;
+import com.example.hive.entity.User;
+import com.example.hive.exceptions.ResourceNotFoundException;
+import com.example.hive.repository.TransactionLogRepository;
+import com.example.hive.repository.UserRepository;
 import com.example.hive.service.PaymentService;
-import com.example.hive.dto.response.WalletResponseDto;
 import com.example.hive.service.WalletService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,13 +21,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/transaction")
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin(origins = ("*"))
+@CrossOrigin(origins = "*")
 public class TransactionController {
+    private final UserRepository userRepository;
+    private final TransactionLogRepository transactionLogRepository;
     private final PaymentService paymentService;
     private final WalletService walletService;
 
@@ -61,6 +65,10 @@ public class TransactionController {
         return ResponseEntity.ok(AppResponse.buildSuccessTxn(response));
     }
 
-
+    @GetMapping("/history")
+    public ResponseEntity<AppResponse<List<TransactionResponse>>> getTransactionHistory(Principal principal)  {
+        List<TransactionResponse> response = walletService.getWalletHistory(principal);
+        return ResponseEntity.ok(AppResponse.buildSuccessTxn(response));
+    }
 
 }

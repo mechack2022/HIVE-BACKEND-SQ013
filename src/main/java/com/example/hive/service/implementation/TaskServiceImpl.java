@@ -245,7 +245,33 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskResponseDto> getTasksByTaskerAndStatus(User currentUser, String status) {
      List<Task>  tasks = taskRepository.findAllByTaskerAndStatus(currentUser,Status.valueOf(status.toUpperCase()));
 
-        return tasks.stream().map(task -> modelMapper.map(task, TaskResponseDto.class)).collect(Collectors.toList());
+        return tasks.stream().map(this::mapToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean cancelNewTaskByTasker(User currentUser, String taskId) {
+        Task taskToCancel = taskRepository.findById(UUID.fromString(taskId)).orElseThrow(() -> new ResourceNotFoundException("task can not be found"));
+
+        if (taskToCancel.getStatus().equals(Status.CANCELLED)) throw new BadRequestException("Task is already cancelled");
+        if (!taskToCancel.getStatus().equals(Status.NEW)) throw new BadRequestException("Task is not new");
+        if ((taskToCancel.getStatus().equals(Status.NEW)) && isTaskerTheOwnerOfTask(taskToCancel,currentUser)) {
+            walletService.refundTaskerFromEscrowWallet(taskToCancel);
+            refundTasker(taskToCancel);
+            taskToCancel.setStatus(Status.CANCELLED);
+            taskRepository.save(taskToCancel);
+            return true;
+        }
+        return false;
+    }
+
+
+    private void refundTasker(Task task) {
+        User tasker = task.getTasker();
+        EscrowWallet escrowWallet = task.getEscrowWallet();
+        walletService.fundTaskerWallet(tasker, escrowWallet.getEscrowAmount());
+        escrowWallet.setEscrowAmount(new BigDecimal(0));
+        escrowWalletRepository.save(escrowWallet);
+
     }
 
     private void creditTheDoerWalletFromEscrowWallet(EscrowWallet escrowWallet, User doer, Task task) {
@@ -254,7 +280,7 @@ public class TaskServiceImpl implements TaskService {
 
         if (task.getIsEscrowTransferComplete()){throw new BadRequestException("The task has been paid for ");}
 
-        walletService.creditDoerWallet(doer, escrowWallet.getEscrowAmount(), task);
+        walletService.creditDoerWallet(doer, escrowWallet.getEscrowAmount());
 
     }
 

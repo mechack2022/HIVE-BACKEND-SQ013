@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationListener;
 
+import java.math.BigDecimal;
+
 @RequiredArgsConstructor
 @Log4j2
 public class WalletFundingEventListener implements ApplicationListener<WalletFundingEvent> {
@@ -17,11 +19,12 @@ public class WalletFundingEventListener implements ApplicationListener<WalletFun
     private final NotificationServiceImpl notificationService;
 
     @Override
-    public void onApplicationEvent(WalletFundingEvent event) {
-        var task = event.getTask();
+    public void onApplicationEvent(WalletFundingEvent event ) {
+        var user = event.getUser();
+        BigDecimal amount = event.getAmount();
 
         try {
-            notificationService.walletFundingNotification(task);
+            notificationService.walletFundingNotification(user, amount);
         } catch (CustomException e) {
             log.error(e.getMessage());
             throw new RuntimeException(e);

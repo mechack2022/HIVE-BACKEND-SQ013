@@ -38,4 +38,6 @@ public AppResponse<TaskResponseDto> createTask(TaskDto taskDto, User user, HttpS
     TaskResponseDto taskerApprovesCompletedTask(User currentUser, String taskId);
 
     List<TaskResponseDto> getTasksByTaskerAndStatus(User currentUser, String status);
+
+    boolean cancelNewTaskByTasker(User currentUser, String taskId);
 }

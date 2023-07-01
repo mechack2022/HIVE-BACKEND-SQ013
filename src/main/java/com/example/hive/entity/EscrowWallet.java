@@ -21,7 +21,7 @@ public class EscrowWallet extends AuditEntity {
 
     private BigDecimal escrowAmount;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Task task;
 
     @Override

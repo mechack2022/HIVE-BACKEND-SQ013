@@ -43,4 +43,5 @@ public class TransactionLog extends AuditEntity {
     private User user;
 
 
+
 }

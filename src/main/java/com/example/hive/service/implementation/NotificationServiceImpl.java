@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -106,21 +107,14 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
 
-    public NotificationResponseDto walletFundingNotification(Task task) {
-        log.info("Sending Wallet Funding Notification to user Doer {} ", task.getTasker().getFullName());
-        UUID userId = task.getDoer().getUser_id();
-        User doer = userRepository.findById(userId).orElseThrow(() ->
-        {
-            throw new CustomException("User with " + userId + " not found");
-        });
-        if(!doer.getRole().equals(Role.DOER)) {
-            throw new CustomException("User is not a Doer");
-        }
+    public NotificationResponseDto walletFundingNotification(User user, BigDecimal amount) {
+        log.info("Sending Wallet Funding Notification to user  {} ", user.getFullName());
+
         Notification notification = Notification.builder()
-                .user(doer)
+                .user(user)
                 .title("Wallet Funded!")
                 .createdAt(LocalDateTime.now().toString())
-                .body("Congratulations! Your wallet has been successfully funded by " + task.getDoer().getFullName() + "\n"
+                .body("Congratulations! Your wallet has been successfully funded with " + amount + "\n"
                         + "Thank you for using Hive!")
                 .build();
 

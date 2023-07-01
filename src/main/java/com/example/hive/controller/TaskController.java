@@ -215,6 +215,19 @@ public class TaskController {
     }
 
 
+    @PostMapping("/{taskId}/cancel")
+    public ResponseEntity<Object> cancelNewTaskByTasker(@PathVariable("taskId") String taskId, Principal principal) {
+
+        String email = principal.getName();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (taskService.cancelNewTaskByTasker(currentUser,taskId)) {
+            return ResponseEntity.status(200).body(AppResponse.builder().statusCode("00").isSuccessful(true).result("Task cancelled").build());
+        }
+        return ResponseEntity.status(200).body(AppResponse.builder().statusCode("00").isSuccessful(false).result("Task not cancelled").build());
+
+    }
 
 
 }
